@@ -25,7 +25,7 @@ const cardLayoutProperties = {
       },
       {
         id: 'sm',
-        col: 8,
+        col: 6,
         width: 1024,
       },
     ],
@@ -33,10 +33,17 @@ const cardLayoutProperties = {
   cards: [
     {
       i: 'aa',
-      title: 'Card E',
+      title: 'Card A',
       type: 'ReactComponent',
       Content: news
     },
+    {
+      i: 'bb',
+      title: 'Card B',
+      type: 'ReactComponent',
+      Content: news
+    },
+
   ],
   layouts: [
     {
@@ -44,6 +51,9 @@ const cardLayoutProperties = {
       layout: [
         {
           i: 'aa', w: 6, h: 4,
+        },
+        {
+          i: 'bb', w: 6, h: 4,
         }
       ],
     },
@@ -52,6 +62,9 @@ const cardLayoutProperties = {
       layout: [
         {
           i: 'aa', w: 6, h: 4,
+        },
+        {
+          i: 'bb', w: 4, h: 4,
         }
       ],
     },
@@ -60,6 +73,9 @@ const cardLayoutProperties = {
       layout: [
         {
           i: 'aa', w: 6, h: 2,
+        },
+        {
+          i: 'bb', w: 6, h: 2,
         }
       ],
     },
