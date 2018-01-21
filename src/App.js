@@ -1,99 +1,133 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
-import news from './News';
-import { CardsLayoutManager } from 'configurable-interactive-layout';
-import '../node_modules/configurable-interactive-layout/dist/cards-framework.css';
-
-const cardLayoutProperties = {
-  config: {
-    draggable: true,
-    resizable: false,
-    rowHeight: 100,
-    cardMargin: [10, 10],
-    cardPadding: [10, 10],
-    breakpoints: [
-      {
-        id: 'lg',
-        col: 12,
-        width: 1400,
-      },
-      {
-        id: 'md',
-        col: 10,
-        width: 1200,
-      },
-      {
-        id: 'sm',
-        col: 6,
-        width: 1024,
-      },
-    ],
-  },
-  cards: [
-    {
-      i: 'aa',
-      title: 'Card A',
-      type: 'ReactComponent',
-      Content: news
-    },
-    {
-      i: 'bb',
-      title: 'Card B',
-      type: 'ReactComponent',
-      Content: news
-    },
-
-  ],
-  layouts: [
-    {
-      breakpoint: 'lg',
-      layout: [
-        {
-          i: 'aa', w: 6, h: 4,
-        },
-        {
-          i: 'bb', w: 6, h: 4,
-        }
-      ],
-    },
-    {
-      breakpoint: 'md',
-      layout: [
-        {
-          i: 'aa', w: 6, h: 4,
-        },
-        {
-          i: 'bb', w: 4, h: 4,
-        }
-      ],
-    },
-    {
-      breakpoint: 'sm',
-      layout: [
-        {
-          i: 'aa', w: 6, h: 2,
-        },
-        {
-          i: 'bb', w: 6, h: 2,
-        }
-      ],
-    },
-  ],
-};
+import { CardsLayoutManager, IframeCard, Card } from 'configurable-interactive-layout';
+import '../node_modules/configurable-interactive-layout/dist/interactiveLayout.css';
+import { layoutConfiguration } from './configurations/basic/layout-configuration';
+import { cardsConfiguration } from './configurations/basic/cards-configurations';
+import CounterComponent from './components/CounterComponent';
+import DoubleCounterComponent from './components/DoubleCounterComponent';
+import DescriptionComponent from './components/DescriptionComponent';
+import EventManager from './eventManager/EventManager';
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.eventManager = new EventManager();
+    this.eventManager.subscribe('multiplyByMinus', (event) => {
+      console.log('event mutliplyByMinus', event);
+      this.setCounterValue(this.state.counter * -1)
+    });
+    this.state = {
+      counter: 0
+    }
+    setInterval(() => {
+      this.setCounterValue(++this.state.counter);
+    }, 1000);
+  }
+
+  setCounterValue(value) {
+    this.setState({counter: value}, () => {
+      // triggering an event for the iframe scenario
+      this.eventManager.trigger('counterUpdated', 'app', { counter: this.state.counter });
+    });
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <CardsLayoutManager
-            layoutProps={cardLayoutProperties}
+      <div>
+        <CardsLayoutManager cardsConfiguration={cardsConfiguration} layoutConfiguration={ layoutConfiguration }>
+          <Card configId="counterCard">
+            <CounterComponent counter={this.state.counter} />
+          </Card>
+          <Card configId="doubleCounterCard">
+            <DoubleCounterComponent counter={this.state.counter} />
+          </Card>
+          <Card configId="titleDescriptionCard" title="Card with title">
+            <DescriptionComponent title={true} />
+          </Card>
+          <Card
+              configId="actionsDescriptionCard"
+              actions={
+                [{
+                  id: 'action1',
+                  displayName: 'restart counter',
+                  iconURL: 'icons/trashbin.svg',
+                  iconURLHover: 'icons/trashbin_hover.svg',
+                  onClick: (actionId) => { this.setCounterValue(0) },
+                }]
+              }
+          >
+            <DescriptionComponent actions={true} description={"hover the top right corner & click the action to restart the counter"} />
+          </Card>
+          <Card
+              configId="actionsWithTitleDescriptionCard"
+              title={"Card with actions and title"}
+              actions={
+                [{
+                  id: 'action1',
+                  displayName: 'restart counter',
+                  iconURL: 'icons/trashbin.svg',
+                  iconURLHover: 'icons/trashbin_hover.svg',
+                  onClick: (actionId) => { this.setCounterValue(0) },
+                },
+                  {
+                    id: 'action2',
+                    displayName: 'multiply counter',
+                    iconURL: 'icons/see_all.svg',
+                    iconURLHover: 'icons/see_all_hover.svg',
+                    onClick: (actionId) => { this.setCounterValue(this.state.counter * 100) },
+                  }]
+              }
+          >
+            <DescriptionComponent title={true} actions={true}
+                                  description={"one action will restart the counter, second will multiple by 100"} />
+          </Card>
+          <DescriptionComponent configId={"notAcard"} description={"This is not a card"} />
 
-        />
+          <IframeCard configId={"iframeNoTitleNoActionsNoEvents"} url={"iframes/iframeNoTitleNoActionsNoEvents.html"} />
+          <IframeCard configId={"iframeWithActions"} url={"iframes/iframeWithActions.html"}
+                      actions={
+                        [{
+                          id: 'action1',
+                          displayName: 'restart counter',
+                          iconURL: 'icons/trashbin.svg',
+                          iconURLHover: 'icons/trashbin_hover.svg',
+                          onClick: (actionId) => { this.setCounterValue(0) },
+                        }]
+                      } />
+          <IframeCard configId={"iframeWithTitleAndActions"} url={"iframes/iframeWithTitleAndActions.html"}
+                      title={"iframe with title & actions"}
+                      actions={
+                        [{
+                          id: 'action1',
+                          displayName: 'restart counter',
+                          iconURL: 'icons/trashbin.svg',
+                          iconURLHover: 'icons/trashbin_hover.svg',
+                          onClick: (actionId) => { this.setCounterValue(0) },
+                        },
+                          {
+                            id: 'action2',
+                            displayName: 'multiply counter',
+                            iconURL: 'icons/see_all.svg',
+                            iconURLHover: 'icons/see_all_hover.svg',
+                            onClick: (actionId) => { this.setCounterValue( this.state.counter * 200 )},
+                          }]
+                      } />
+          <IframeCard configId={"iframeWithTitleAndActionsAndEvents"} url={"iframes/iframeWithTitleAndActionsAndEvents.html"}
+                      title={"iframe with title & actions & events"}
+                      eventIds={['counterUpdated']}
+                      eventManager={this.eventManager}
+                      actions={
+                        [{
+                          id: 'action1',
+                          displayName: 'restart counter',
+                          iconURL: 'icons/trashbin.svg',
+                          iconURLHover: 'icons/trashbin_hover.svg',
+                          onClick: (actionId) => { this.setCounterValue(0) },
+                        }]
+                      } />
+        </CardsLayoutManager>
 
 
       </div>
