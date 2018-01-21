@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import { CardsLayoutManager, IframeCard, Card } from 'configurable-interactive-layout';
 import '../node_modules/configurable-interactive-layout/dist/interactiveLayout.css';
 import { layoutConfiguration } from './configurations/basic/layout-configuration';
@@ -22,7 +21,7 @@ class App extends Component {
       counter: 0
     }
     setInterval(() => {
-      this.setCounterValue(++this.state.counter);
+      this.setCounterValue(this.state.counter + 1);
     }, 1000);
   }
 
