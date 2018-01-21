@@ -84,8 +84,8 @@ class App extends Component {
           </Card>
           <DescriptionComponent configId={"notAcard"} description={"This is not a card"} />
 
-          <IframeCard configId={"iframeNoTitleNoActionsNoEvents"} url={process.env.PUBLIC_URL+"/iframes/iframeNoTitleNoActionsNoEvents.html"} />
-          <IframeCard configId={"iframeWithActions"} url={process.env.PUBLIC_URL+"/iframes/iframeWithActions.html"}
+          <IframeCard configId={"iframeNoTitleNoActionsNoEvents"} url={"http://elegant-dijkstra-d03a99.bitballoon.com"} />
+          <IframeCard configId={"iframeWithActions"} url={"http://adoring-kilby-eb53b2.bitballoon.com/"}
                       actions={
                         [{
                           id: 'action1',
@@ -95,7 +95,7 @@ class App extends Component {
                           onClick: (actionId) => { this.setCounterValue(0) },
                         }]
                       } />
-          <IframeCard configId={"iframeWithTitleAndActions"} url={process.env.PUBLIC_URL+"/iframes/iframeWithTitleAndActions.html"}
+          <IframeCard configId={"iframeWithTitleAndActions"} url={"http://practical-meitner-c0a310.bitballoon.com/"}
                       title={"iframe with title & actions"}
                       actions={
                         [{
@@ -113,7 +113,7 @@ class App extends Component {
                             onClick: (actionId) => { this.setCounterValue( this.state.counter * 200 )},
                           }]
                       } />
-          <IframeCard configId={"iframeWithTitleAndActionsAndEvents"} url={process.env.PUBLIC_URL+"/iframes/iframeWithTitleAndActionsAndEvents.html"}
+          <IframeCard configId={"iframeWithTitleAndActionsAndEvents"} url={"http://wonderful-borg-b320ed.bitballoon.com/"}
                       title={"iframe with title & actions & events"}
                       eventIds={['counterUpdated']}
                       eventManager={this.eventManager}
