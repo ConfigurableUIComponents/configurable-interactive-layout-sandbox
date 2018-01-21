@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CardsLayoutManager, IframeCard, Card } from 'configurable-interactive-layout';
+import { CardsLayoutManager, Card } from 'configurable-interactive-layout';
 import '../node_modules/configurable-interactive-layout/dist/interactiveLayout.css';
 import { layoutConfiguration } from './configurations/basic/layout-configuration';
 import { cardsConfiguration } from './configurations/basic/cards-configurations';
