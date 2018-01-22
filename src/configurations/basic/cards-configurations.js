@@ -2,19 +2,19 @@ export const cardsConfiguration = [  {
     breakpoint: 'lg',
     layout: [
       {
-        i: 'counterCard', w: 6, h: 2,
+        i: 'counterCard', w: 8, h: 2,
       },
       {
-        i: 'doubleCounterCard', w: 12, h: 2,
+        i: 'doubleCounterCard', w: 4, h: 2,
       },
       {
-        i: 'titleDescriptionCard', w: 12, h: 2,
+        i: 'titleDescriptionCard', w: 5, h: 4,
       },
       {
-        i: 'actionsDescriptionCard', w: 12, h: 2,
+        i: 'actionsDescriptionCard', w: 6, h: 2,
       },
       {
-        i: 'actionsWithTitleDescriptionCard', w: 12, h: 2,
+        i: 'actionsWithTitleDescriptionCard', w: 6, h: 2,
       },
       {
         i: 'notAcard', w: 12, h: 2,
@@ -37,13 +37,13 @@ export const cardsConfiguration = [  {
     breakpoint: 'md',
     layout: [
       {
-        i: 'counterCard', w: 4, h: 2,
+        i: 'counterCard', w: 6, h: 4,
       },
       {
         i: 'doubleCounterCard', w: 4, h: 2,
       },
       {
-        i: 'titleDescriptionCard', w: 4, h: 2,
+        i: 'titleDescriptionCard', w: 2, h: 2,
       },
       {
         i: 'actionsDescriptionCard', w: 4, h: 2,
