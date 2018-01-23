@@ -12,12 +12,12 @@ export const layoutConfiguration = {
     },
     {
       id: 'md',
-      col: 10,
+      col: 8,
       width: 1200,
     },
     {
       id: 'sm',
-      col: 8,
+      col: 6,
       width: 1024,
     },
   ]
