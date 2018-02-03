@@ -18,7 +18,9 @@ class App extends Component {
       this.setCounterValue(this.state.counter * -1)
     });
     this.state = {
-      counter: 0
+      counter: 0,
+      selectedView: "defaultView",
+      cardsConfiguration: cardsConfiguration,
     }
     setInterval(() => {
       this.setCounterValue(this.state.counter + 1);
@@ -32,10 +34,19 @@ class App extends Component {
     });
   }
 
+  onLayoutChange(cardsOrder) {
+    const newCardsConfiguration = this.state.cardsConfiguration;
+    newCardsConfiguration[this.state.selectedView].cardsOrder = cardsOrder;
+    this.setState({
+      cardsConfiguration: newCardsConfiguration,
+    });
+  }
+
   render() {
+    const cardsConfig = cardsConfiguration[this.state.selectedView];
     return (
       <div>
-        <CardsLayoutManager cardsConfiguration={cardsConfiguration} layoutConfiguration={ layoutConfiguration } defaultView = "defaultView">
+        <CardsLayoutManager cardsConfiguration={cardsConfig} layoutConfiguration={ layoutConfiguration } onLayoutChange={this.onLayoutChange.bind(this)} >
           <Card configId="counterCard">
             <CounterComponent counter={this.state.counter} />
           </Card>
