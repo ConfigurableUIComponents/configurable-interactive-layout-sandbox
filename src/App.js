@@ -22,9 +22,7 @@ class App extends Component {
       selectedView: "defaultView",
       cardsConfiguration: cardsConfiguration,
     }
-    setInterval(() => {
-      this.setCounterValue(this.state.counter + 1);
-    }, 1000);
+
   }
 
   setCounterValue(value) {
