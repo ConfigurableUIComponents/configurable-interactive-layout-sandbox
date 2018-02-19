@@ -38,14 +38,20 @@
     </noscript>
     <div id="root"></div>
     <script>
+      const transactionId = new Date().getMilliseconds();
+      console.log(transactionId, 'transactionId');
+      let stepCounter = 1;
       const clientPromise = stitch.StitchClientFactory.create('analytics-pfmqy');
       clientPromise.then(client => {
         const db = client.service('mongodb', 'mongodb-atlas').db('Analytics');
         client.login().then(() => {
-              db.collection('Steps').insertOne({owner_id: client.authedId(), stepId: 'login'});
-              db.collection('Steps').insertOne({owner_id: client.authedId(), stepId: 'taskList'});
+              db.collection('Steps').insertOne({owner_id: client.authedId(), stepId: 'login', transactionId, stepCounter});
+              stepCounter = stepCounter + 1;
+              db.collection('Steps').insertOne({owner_id: client.authedId(), stepId: 'taskList', transactionId, stepCounter});
+              stepCounter = stepCounter + 1;
+              db.collection('Steps').insertOne({owner_id: client.authedId(), stepId: 'navigate to task', transactionId, stepCounter});
         }).then(()=>
-            db.collection('Steps').find({owner_id: client.authedId()}).limit(100).execute()
+            db.collection('Steps').find({transactionId}).limit(100).execute()
         ).then(docs => {
           console.log("Found docs", docs)
           console.log("[MongoDB Stitch] Connected to Stitch")
