@@ -6,7 +6,8 @@ import { layoutConfiguration } from './configurations/basic/layout-configuration
 import { cardsConfiguration } from './configurations/basic/cards-configurations';
 import EchoComponent from './components/EchoComponent';
 import EventManager from './eventManager/EventManager';
-import uniqBy from 'lodash/uniqBy'; 
+import uniqBy from 'lodash/uniqBy';
+import sortBy from 'lodash/sortBy';
 
 class App extends Component {
 
@@ -42,6 +43,7 @@ class App extends Component {
         });
     }
 
+    //returns array of objects: {stepId: <>, counter:<>}
     getStepCounters(){
         var uniqArr = uniqBy(this.state.docs, 'stepId');
         var stepCounters = [];
@@ -59,31 +61,42 @@ class App extends Component {
         return stepCounters;
     }
 
-
-
-    getStepCountersold() {
-        var self = this;
-        clientPromise.then(client => {
-            const db = client.service('mongodb', 'mongodb-atlas').db('Analytics');
-            client.login().then(() =>
-                db.collection('Steps').count({"stepId": uname}).limit(200).execute()
-            ).then(docs => {
-                console.log(docs);
-            }).catch(err => {
-                console.error(err)
+    //returns array of objects: {transactionId: <>, stepsArray:[]}
+    getStepOrders(){
+        var uniqArr = uniqBy(this.state.docs, 'transactionId');
+        var stepOrders = [];
+        for (var i =0; i<uniqArr.length; i++){
+            var found = this.state.docs.filter(function(element) {
+                return (element.transactionId == uniqArr[i].transactionId);
             });
-        });
 
+            var sortedStepIds = sortBy(found, 'stepCounter').map(function(item) {
+                return item.stepId
+            });
+
+            var stepOrder = {
+                transactionId: uniqArr[i].transactionId,
+                stepOrder: sortedStepIds
+            };
+            
+            stepOrders.push(stepOrder);
+        }
+        return stepOrders;
     }
 
     render() {
         const stepCounters = this.getStepCounters();
+        const stepOrders = this.getStepOrders();
         const cardsConfig = cardsConfiguration[this.state.selectedView];
         return (
             <div>
                 <CardsLayoutManager cardsConfiguration={cardsConfig} layoutConfiguration={ layoutConfiguration } onLayoutChange={this.onLayoutChange.bind(this)} >
                     <Card configId="echoCard" title="Steps table">
-                        <EchoComponent docs={this.state.docs} stepCounters = {stepCounters}/>
+                        <EchoComponent 
+                        docs={this.state.docs} 
+                        stepCounters = {stepCounters}
+                        stepOrders = {stepOrders}
+                        />
                     </Card>
                 </CardsLayoutManager>
             </div>
