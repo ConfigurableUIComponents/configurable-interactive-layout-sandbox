@@ -6,6 +6,7 @@ import { layoutConfiguration } from './configurations/basic/layout-configuration
 import { cardsConfiguration } from './configurations/basic/cards-configurations';
 import EchoComponent from './components/EchoComponent';
 import EventManager from './eventManager/EventManager';
+import uniqBy from 'lodash/uniqBy'; 
 
 class App extends Component {
 
@@ -32,23 +33,57 @@ class App extends Component {
         clientPromise.then(client => {
             const db = client.service('mongodb', 'mongodb-atlas').db('Analytics');
             client.login().then(() =>
-                db.collection('Steps').find().limit(200).execute()
+                db.collection('Steps').find().limit(1000).execute()
             ).then(docs => {
                 this.setState({docs});
-                //self.docs = docs;
             }).catch(err => {
                 console.error(err)
             });
         });
     }
 
+    getStepCounters(){
+        var uniqArr = uniqBy(this.state.docs, 'stepId');
+        var stepCounters = [];
+        for (var i =0; i<uniqArr.length; i++){
+            var found = this.state.docs.filter(function(element) {
+                return (element.stepId == uniqArr[i].stepId);
+            });
+            var stepCounter = {
+                stepId: uniqArr[i].stepId,
+                counter: found.length
+            };
+            
+            stepCounters.push(stepCounter);
+        }
+        return stepCounters;
+    }
+
+
+
+    getStepCountersold() {
+        var self = this;
+        clientPromise.then(client => {
+            const db = client.service('mongodb', 'mongodb-atlas').db('Analytics');
+            client.login().then(() =>
+                db.collection('Steps').count({"stepId": uname}).limit(200).execute()
+            ).then(docs => {
+                console.log(docs);
+            }).catch(err => {
+                console.error(err)
+            });
+        });
+
+    }
+
     render() {
+        const stepCounters = this.getStepCounters();
         const cardsConfig = cardsConfiguration[this.state.selectedView];
         return (
             <div>
                 <CardsLayoutManager cardsConfiguration={cardsConfig} layoutConfiguration={ layoutConfiguration } onLayoutChange={this.onLayoutChange.bind(this)} >
                     <Card configId="echoCard" title="Steps table">
-                        <EchoComponent docs={this.state.docs}/>
+                        <EchoComponent docs={this.state.docs} stepCounters = {stepCounters}/>
                     </Card>
                 </CardsLayoutManager>
             </div>

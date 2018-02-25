@@ -6,7 +6,8 @@ import '../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.
 export default class EchoComponent extends Component {
 
     render() {
-
+        console.log (this.props.stepCounters);
+        
         var products = [{
             id: 1,
             name: "Product1",
