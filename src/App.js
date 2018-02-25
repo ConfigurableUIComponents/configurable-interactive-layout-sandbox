@@ -91,11 +91,10 @@ class App extends Component {
         return (
             <div>
                 <CardsLayoutManager cardsConfiguration={cardsConfig} layoutConfiguration={ layoutConfiguration } onLayoutChange={this.onLayoutChange.bind(this)} >
-                    <Card configId="echoCard" title="Steps table">
+                    <Card configId="echoCard" title="Number of Clicks per Step">
                         <EchoComponent 
-                        docs={this.state.docs} 
-                        stepCounters = {stepCounters}
-                        stepOrders = {stepOrders}
+                            stepCounters = {stepCounters}
+                            stepOrders = {stepOrders}
                         />
                     </Card>
                 </CardsLayoutManager>

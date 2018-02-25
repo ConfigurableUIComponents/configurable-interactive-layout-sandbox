@@ -6,25 +6,11 @@ import '../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.
 export default class EchoComponent extends Component {
 
     render() {
-        console.log (this.props.stepCounters);
-        
-        var products = [{
-            id: 1,
-            name: "Product1",
-            price: 120
-        }, {
-            id: 2,
-            name: "Product2",
-            price: 80
-        }];
-
-        console.log(this.props.docs);
 
         return (
-            <BootstrapTable data={products}>
-                <TableHeaderColumn isKey dataField='id'>Product ID</TableHeaderColumn>
-                <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
+            <BootstrapTable data={this.props.stepCounters}>
+                <TableHeaderColumn isKey dataField='stepId'>Step Id</TableHeaderColumn>
+                <TableHeaderColumn dataField='counter'>Number Of clicks</TableHeaderColumn>
             </BootstrapTable>
         )
     }
