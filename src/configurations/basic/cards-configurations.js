@@ -3,9 +3,9 @@ export const cardsConfiguration = {
         cardsOrder: ['echoCard'],
         cards: {
             echoCard: {
-                lg: {w: 6, h: 2,},
-                md: {w: 4, h: 2,},
-                sm: {w: 2, h: 2,},
+                lg: {w: 12, h: 4},
+                md: {w: 12, h: 4,},
+                sm: {w: 12, h: 4,},
             },
             counterCard: {
                 lg: {w: 6, h: 2,},
