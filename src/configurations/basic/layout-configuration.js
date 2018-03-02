@@ -1,6 +1,6 @@
 export const layoutConfiguration = {
   draggable: true,
-  resizable: false,
+  resizable: true,
   rowHeight: 100,
   cardMargin: [20, 20],
   cardPadding: [20, 20],

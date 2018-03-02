@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Graph } from 'react-d3-graph';
 
-export default class CounterComponent extends Component {
+export default class GraphCard extends Component {
 
   render() {
 
@@ -39,40 +39,19 @@ export default class CounterComponent extends Component {
       height: 600
     };
 
-// graph event callbacks
-    const onClickNode = function(nodeId) {
-      console.log('Clicked node ${nodeId}');
-    };
+    const graphs = this.props.transactions.map(transaction => {
+      const steps = transaction.stepOrder;
+      var data = { nodes: [], links: []};
+      for(var ii=0; ii < steps.length;){
+        if(ii != 0 && ii % 2 !== 0) data.links.push({source: data., target: 'taskList', value: 0.1})
+      }
 
-    const onMouseOverNode = function(nodeId) {
-      console.log('onMouseOverNode ${nodeId}');
-    };
-
-    const onMouseOutNode = function(nodeId) {
-      console.log(`Mouse out node ${nodeId}`);
-    };
-
-    const onClickLink = function(source, target) {
-      console.log(`Clicked link between ${source} and ${target}`);
-    };
-
-    const onMouseOverLink = function(source, target) {
-      console.log(`Mouse over in link between ${source} and ${target}`);
-    };
-
-    const onMouseOutLink = function(source, target) {
-      console.log(`Mouse out link between ${source} and ${target}`);
-    };
+    })
 
     return <Graph
         id='graph-id' // id is mandatory, if no id is defined rd3g will throw an error
         data={data}
         config={myConfig}
-        onClickNode={onClickNode}
-        onClickLink={onClickLink}
-        onMouseOverNode={onMouseOverNode}
-        onMouseOutNode={onMouseOutNode}
-        onMouseOverLink={onMouseOverLink}
-        onMouseOutLink={onMouseOutLink}/>
+    />
   }
 }

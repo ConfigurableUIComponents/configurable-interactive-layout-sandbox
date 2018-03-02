@@ -5,6 +5,7 @@ import '../node_modules/configurable-interactive-layout/dist/interactiveLayout.c
 import { layoutConfiguration } from './configurations/basic/layout-configuration';
 import { cardsConfiguration } from './configurations/basic/cards-configurations';
 import EchoComponent from './components/EchoComponent';
+import GraphCard from './components/GraphComponent';
 import EventManager from './eventManager/EventManager';
 import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
@@ -92,10 +93,10 @@ class App extends Component {
             <div>
                 <CardsLayoutManager cardsConfiguration={cardsConfig} layoutConfiguration={ layoutConfiguration } onLayoutChange={this.onLayoutChange.bind(this)} >
                     <Card configId="echoCard" title="Number of Clicks per Step">
-                        <EchoComponent 
-                            stepCounters = {stepCounters}
-                            stepOrders = {stepOrders}
-                        />
+                        <EchoComponent stepCounters = {stepCounters} />
+                    </Card>
+                    <Card configId="graphCard">
+                      <GraphCard transactions = {stepOrders} />
                     </Card>
                 </CardsLayoutManager>
             </div>
